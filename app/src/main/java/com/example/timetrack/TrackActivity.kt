@@ -7,7 +7,10 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.timetrack.databinding.ActivityTrackBinding
 
 class TrackActivity: AppCompatActivity() {
@@ -19,16 +22,25 @@ class TrackActivity: AppCompatActivity() {
     private lateinit var serviceIntent: Intent
     private var time: Int = 0
     private lateinit var binding: ActivityTrackBinding
-//    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: TrackActivityViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTrackBinding.inflate(layoutInflater)
+        val app = application as ApiHandler
+        viewModel = ViewModelProvider(this, TrackActivityViewModelFactory(app.repository)).get(TrackActivityViewModel::class.java)
+        binding.trackViewModel = viewModel
+        binding.lifecycleOwner = this
         val view = binding.root
         setContentView(view)
-        val title = intent.getExtras()?.getString("task_name")
-        val titleText: TextView = findViewById(R.id.taskName)
+        val title = intent.extras?.getString("task_name")
+        val id = intent.extras?.getString("id")
+        val titleText: TextView = binding.taskName
+       viewModel.idCard.value = id.orEmpty()
+        viewModel.response.observe(this, Observer {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        })
         titleText.text = title
 
         timer = binding.timeViewer
@@ -36,6 +48,7 @@ class TrackActivity: AppCompatActivity() {
 
         start = binding.startButton
         reset = binding.resetButton
+
 
         start.setOnClickListener {
             if (timerRunning) {
@@ -73,7 +86,8 @@ class TrackActivity: AppCompatActivity() {
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
            time = intent.getIntExtra(StopwatchService.TIME_EXTRA, 0)
-            timer.text = timeFormatter(time)
+            binding.trackViewModel!!.time.postValue(timeFormatter(time))
+
         }
 
     }

@@ -1,15 +1,20 @@
 package com.example.timetrack
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetrack.databinding.ItemTaskBinding
+import com.example.timetrack.model.TaskData
 
-class TaskListAdapter(private val taskList: List<Pair<String,String>>):
+class TaskListAdapter:
  RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
+  var tasks:MutableList<TaskData> = mutableListOf<TaskData>()
+ fun setTaskList(tasks: List<TaskData>) {
+  this.tasks = tasks.toMutableList()
+  notifyDataSetChanged()
+ }
  private lateinit var clickListener: onItemClickListener
 
 
@@ -29,12 +34,12 @@ class TaskListAdapter(private val taskList: List<Pair<String,String>>):
  }
 
  override fun onBindViewHolder(holder: TaskListAdapter.ViewHolder, position: Int) {
-  holder.taskName.text = taskList[position].first
-  holder.taskStatus.text = taskList[position].second
+  holder.taskName.text = tasks[position].name
+  holder.taskStatus.text = tasks[position].status
  }
 
  override fun getItemCount(): Int {
-  return taskList.size
+  return tasks.size
  }
    inner class ViewHolder(binding: ItemTaskBinding, listener: onItemClickListener):RecyclerView.ViewHolder(binding.root){
     private var taskButton: Button = binding.taskButton
