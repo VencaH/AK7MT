@@ -1,10 +1,10 @@
 package com.example.timetrack
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.timetrack.databinding.ItemHistoryBinding
 
 class HistoryListAdapter(private val historyList: List<Pair<String,String>>):
     RecyclerView.Adapter<HistoryListAdapter.ViewHolder>(){
@@ -13,9 +13,8 @@ class HistoryListAdapter(private val historyList: List<Pair<String,String>>):
         parent: ViewGroup,
         viewType: Int
     ): HistoryListAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_history, parent, false)
-        return ViewHolder(view)
+        val binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: HistoryListAdapter.ViewHolder, position: Int) {
@@ -27,8 +26,8 @@ class HistoryListAdapter(private val historyList: List<Pair<String,String>>):
        return historyList.size
     }
 
-        inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-            var date: TextView = itemView.findViewById(R.id.date)
-            var time: TextView = itemView.findViewById(R.id.time)
+        inner class ViewHolder(binding: ItemHistoryBinding): RecyclerView.ViewHolder(binding.root) {
+            var date: TextView = binding.date
+            var time: TextView = binding.time
         }
 }

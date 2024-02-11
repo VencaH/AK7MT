@@ -7,6 +7,9 @@ android {
     namespace = "com.example.timetrack"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
     defaultConfig {
         applicationId = "com.example.timetrack"
         minSdk = 26

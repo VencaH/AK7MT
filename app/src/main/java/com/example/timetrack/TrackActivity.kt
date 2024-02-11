@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.timetrack.databinding.ActivityTrackBinding
 
 class TrackActivity: AppCompatActivity() {
     private lateinit var history: Button
@@ -17,20 +18,24 @@ class TrackActivity: AppCompatActivity() {
     private var timerRunning: Boolean = false
     private lateinit var serviceIntent: Intent
     private var time: Int = 0
+    private lateinit var binding: ActivityTrackBinding
 //    private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_track)
+        binding = ActivityTrackBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         val title = intent.getExtras()?.getString("task_name")
         val titleText: TextView = findViewById(R.id.taskName)
         titleText.text = title
 
-        timer = findViewById(R.id.timeViewer)
+        timer = binding.timeViewer
         timer.text = timeFormatter(0)
 
-        start = findViewById(R.id.startButton)
-        reset = findViewById(R.id.resetButton)
+        start = binding.startButton
+        reset = binding.resetButton
 
         start.setOnClickListener {
             if (timerRunning) {
@@ -54,7 +59,7 @@ class TrackActivity: AppCompatActivity() {
             RECEIVER_EXPORTED)
 
 
-        history = findViewById(R.id.historyBotton)
+        history = binding.historyBotton
         history.setOnClickListener {
             val intent = Intent(this@TrackActivity, HistoryActivity::class.java)
             val bundle = Bundle()

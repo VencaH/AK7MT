@@ -5,17 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.timetrack.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var taskList: RecyclerView
     private lateinit var adapter: TaskListAdapter
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
-        taskList = findViewById(R.id.taskList)
+        taskList = binding.taskList
         taskList.layoutManager = LinearLayoutManager(this)
 
         val taskCurrentList = listOf(Pair("Task 1","Doing"),Pair("Task 2","To Do"),Pair("Task 3","Doing"),Pair("Task 4","Done"))
