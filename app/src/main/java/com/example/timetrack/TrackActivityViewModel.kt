@@ -50,8 +50,7 @@ class TrackActivityViewModel (private val repository: Repository): ViewModel(){
             stopwatch.postValue("start")
             startstop.postValue("Stop")
             stopwatchState = true
-        }
-        else {
+        } else {
             stopwatch.postValue("stop")
             startstop.postValue( "Start")
             stopwatchState = false
