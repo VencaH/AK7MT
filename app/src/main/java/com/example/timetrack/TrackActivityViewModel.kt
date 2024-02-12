@@ -16,9 +16,13 @@ class TrackActivityViewModel (private val repository: Repository): ViewModel(){
     val response = MutableLiveData<String>()
     var idCard = MutableLiveData<String>()
     var time = MutableLiveData<String>()
+    var startstop = MutableLiveData<String>()
+    var stopwatch = MutableLiveData<Boolean>()
 
     init {
         time.value = "00:00:00"
+        startstop.value = "Start"
+        stopwatch.value = false
     }
     fun saveTime() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -35,6 +39,21 @@ class TrackActivityViewModel (private val repository: Repository): ViewModel(){
                 }
             }
             }
+    }
+
+    fun flipStopwatch() {
+        if (stopwatch.value!!) {
+            stopwatch.postValue(false)
+            startstop.value ="Start"
+        }
+        else {
+            stopwatch.postValue(true)
+            startstop.value = "Stop"
+        }
+    }
+
+    fun resetTimer() {
+        time.value = "00:00:00"
     }
 
 }

@@ -15,12 +15,8 @@ import com.example.timetrack.databinding.ActivityTrackBinding
 
 class TrackActivity: AppCompatActivity() {
     private lateinit var history: Button
-    private lateinit var timer: TextView
-    private lateinit var start: Button
-    private lateinit var reset: Button
-    private var timerRunning: Boolean = false
-    private lateinit var serviceIntent: Intent
-    private var time: Int = 0
+   private lateinit var serviceIntent: Intent
+//    private var time: Int = 0
     private lateinit var binding: ActivityTrackBinding
     private lateinit var viewModel: TrackActivityViewModel
 
@@ -41,39 +37,27 @@ class TrackActivity: AppCompatActivity() {
         viewModel.response.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         })
-        titleText.text = title
-
-        timer = binding.timeViewer
-        timer.text = timeFormatter(0)
-
-        start = binding.startButton
-        reset = binding.resetButton
-
-
-        start.setOnClickListener {
-            if (timerRunning) {
-                stopService(serviceIntent)
-                start.text = "Start"
-                timerRunning = false
-            } else {
-                serviceIntent.putExtra(StopwatchService.TIME_EXTRA, time)
+        viewModel.stopwatch.observe(this, Observer {
+            if (it) {
+                serviceIntent.putExtra(StopwatchService.TIME_EXTRA, viewModel.time.value)
                 startService(serviceIntent)
-                start.text = "Stop"
-                timerRunning = true
+            }
+            else {
+                stopService(serviceIntent)
             }
         }
-        reset.setOnClickListener {
-            time = 0
-            timer.text = timeFormatter(0)
-        }
+        )
+        titleText.text = title
+
+//        timer = binding.timeViewer
+//        timer.text = timeFormatter(0)
 
         serviceIntent = Intent(applicationContext, StopwatchService::class.java)
         registerReceiver(updateTime, IntentFilter(StopwatchService.TIMER_UPDATED),
             RECEIVER_EXPORTED)
 
 
-        history = binding.historyBotton
-        history.setOnClickListener {
+        binding.historyBotton.setOnClickListener {
             val intent = Intent(this@TrackActivity, HistoryActivity::class.java)
             val bundle = Bundle()
             bundle.putString("task_name", title)
@@ -85,7 +69,7 @@ class TrackActivity: AppCompatActivity() {
 
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-           time = intent.getIntExtra(StopwatchService.TIME_EXTRA, 0)
+           val time = intent.getIntExtra(StopwatchService.TIME_EXTRA, 0)
             binding.trackViewModel!!.time.postValue(timeFormatter(time))
 
         }
