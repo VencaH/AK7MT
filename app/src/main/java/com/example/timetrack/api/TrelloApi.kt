@@ -1,11 +1,8 @@
 package com.example.timetrack.api
 
-import com.example.timetrack.R
-import com.example.timetrack.model.CommentData
-import com.example.timetrack.model.ListData
-import com.example.timetrack.model.TaskApiData
-import com.example.timetrack.model.TaskData
-import retrofit2.Call
+import com.example.timetrack.domain.CommentDataDomain
+import com.example.timetrack.domain.ListDataDomain
+import com.example.timetrack.domain.ListDataNetwork
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,14 +23,14 @@ interface TrelloApi {
         @Path("board") board: String,
         @Query("key") apikey: String,
         @Query("token") token: String,
-    ): Response<List<TaskApiData>>
+    ): Response<List<TaskDataNetwork>>
 
     @GET(LISTS_ENDPOINT)
     suspend fun getListInfo (
         @Path("id") idlist: String,
         @Query("key") apikey: String,
         @Query("token") token: String,
-    ): Response<ListData>
+    ): Response<ListDataNetwork>
 
 @POST(ADD_COMMENT_ENDPOINT)
 suspend fun postComment(
@@ -42,7 +39,7 @@ suspend fun postComment(
     @Query("key") apikey: String,
     @Query("token") token: String,
     @Body body: Any = Object()
-): Response<CommentData>
+): Response<CommentDataDomain>
 
 
 

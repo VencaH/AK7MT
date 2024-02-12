@@ -6,12 +6,12 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetrack.databinding.ItemTaskBinding
-import com.example.timetrack.model.TaskData
+import com.example.timetrack.domain.TaskDataDomain
 
 class TaskListAdapter:
  RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
-  var tasks:MutableList<TaskData> = mutableListOf<TaskData>()
- fun setTaskList(tasks: List<TaskData>) {
+  var tasks:MutableList<TaskDataDomain> = mutableListOf<TaskDataDomain>()
+ fun setTaskList(tasks: List<TaskDataDomain>) {
   this.tasks = tasks.toMutableList()
   notifyDataSetChanged()
  }

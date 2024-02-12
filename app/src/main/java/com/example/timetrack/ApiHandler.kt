@@ -2,6 +2,7 @@ package com.example.timetrack
 
 import android.app.Application
 import com.example.timetrack.api.TrelloApi
+import com.example.timetrack.database.getDatabase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,7 +16,7 @@ class ApiHandler : Application() {
     }
 
     val repository: Repository by lazy {
-        Repository(apiService)
+        Repository(apiService, getDatabase(this))
     }
 
 }
