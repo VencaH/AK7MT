@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.Update
 
 @Dao
 interface TaskInfoDao {
@@ -24,10 +25,26 @@ interface ListDataDao {
     fun insertListData(data: ListDataDTO)
 }
 
-@Database(entities = [ListDataDTO::class, TaskDataDTO::class], version = 1)
+@Dao
+interface TimeRecordDao {
+    @Query("select * from time_record where id = :id ")
+    fun getTimeRecords(id: String): List<TimeRecordDTO>
+
+    @Query("select * from time_record where status ='Not synced' and id = :id ")
+    fun getAllNotSynced(id: String): List<TimeRecordDTO>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTimeRecord(data: TimeRecordDTO)
+
+    @Update
+    fun updateTimeRecord(data: TimeRecordDTO)
+}
+
+@Database(entities = [ListDataDTO::class, TaskDataDTO::class, TimeRecordDTO::class], version = 1)
     abstract class MyDatabase: RoomDatabase() {
         abstract val taskInfoDao: TaskInfoDao
        abstract val listDataDao:ListDataDao
+       abstract val timeRecordDao: TimeRecordDao
     }
 
 private lateinit var INSTANCE: MyDatabase

@@ -38,12 +38,14 @@ class TrackActivity: AppCompatActivity() {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         })
         viewModel.stopwatch.observe(this, Observer {
-            if (it) {
+            if (it=="start") {
                 serviceIntent.putExtra(StopwatchService.TIME_EXTRA, viewModel.time.value)
                 startService(serviceIntent)
+                viewModel.stopwatch.value = null
             }
-            else {
+            else if (it=="stop"){
                 stopService(serviceIntent)
+                viewModel.stopwatch.value = null
             }
         }
         )
@@ -61,6 +63,7 @@ class TrackActivity: AppCompatActivity() {
             val intent = Intent(this@TrackActivity, HistoryActivity::class.java)
             val bundle = Bundle()
             bundle.putString("task_name", title)
+            bundle.putString("id", id)
             intent.putExtras(bundle)
             startActivity(intent)
         }
