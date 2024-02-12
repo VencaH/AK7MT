@@ -3,9 +3,11 @@ package com.example.timetrack
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.timetrack.domain.TimeRecordDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.time.LocalDate
 
 class TrackActivityViewModel (private val repository: Repository): ViewModel(){
     val response = MutableLiveData<String>()
@@ -23,7 +25,13 @@ class TrackActivityViewModel (private val repository: Repository): ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             if (idCard.value!= null && time.value!=null) {
                 try {
-                    val resp = repository.saveTime(idCard.value.orEmpty(), time.value.orEmpty())
+                    val resp = repository.saveTime(
+                        TimeRecordDomain(
+                            rid = null,
+                        id = idCard.value.orEmpty(),
+                            timeRecord = time.value.orEmpty(),
+                            status = "Not synced",
+                            date = LocalDate.now().toString()))
                     if (resp == 200) {
                         response.postValue("Time saved!")
                     } else {

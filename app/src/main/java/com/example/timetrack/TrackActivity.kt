@@ -61,6 +61,7 @@ class TrackActivity: AppCompatActivity() {
             val intent = Intent(this@TrackActivity, HistoryActivity::class.java)
             val bundle = Bundle()
             bundle.putString("task_name", title)
+            bundle.putString("id", id)
             intent.putExtras(bundle)
             startActivity(intent)
         }

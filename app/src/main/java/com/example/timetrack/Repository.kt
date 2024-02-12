@@ -7,10 +7,13 @@ import com.example.timetrack.api.mapToDatabase
 import com.example.timetrack.database.ListDataDTO
 import com.example.timetrack.database.MyDatabase
 import com.example.timetrack.database.TaskDataDTO
+import com.example.timetrack.database.TimeRecordDTO
 import com.example.timetrack.database.mapToDomain
 import com.example.timetrack.domain.ListDataDomain
 import com.example.timetrack.domain.ListDataNetwork
 import com.example.timetrack.domain.TaskDataDomain
+import com.example.timetrack.domain.TimeRecordDomain
+import com.example.timetrack.domain.mapToDTO
 import com.example.timetrack.domain.mapToDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -46,7 +49,7 @@ class Repository (private val api: TrelloApi, private val database: MyDatabase) 
                 Log.e("TimeTrack", e.message.orEmpty())
             }
     }
-    suspend fun downloadListInfo(idList: String) {
+    private suspend fun downloadListInfo(idList: String) {
         try {
             val list: ListDataNetwork? = api.getListInfo(idList, apiKey, token).body()
             if(list != null) {
@@ -75,10 +78,43 @@ class Repository (private val api: TrelloApi, private val database: MyDatabase) 
 //        } else { result = list.name}
 //        return result
 //    }
+    fun getTimeRecords(idCard: String): List<TimeRecordDomain> {
+        return database.timeRecordDao.getTimeRecords(idCard).map { it.mapToDomain() }
+    }
 
-    suspend fun saveTime(idCard: String, time: String): Int {
+   suspend fun saveTime(timeRecord: TimeRecordDomain):Int {
+       var code = 0
+       try {
+           code = saveTimeNetwork(timeRecord.id, timeRecord.timeRecord)
+           if (code == 200) {
+               timeRecord.status = "Synced"
+           }
+       } catch (e:Exception) {
+               Log.e("TimeTrack", e.message.orEmpty())
+           }
+       val timeRecordDTO = timeRecord.mapToDTO()
+       withContext(Dispatchers.IO) {
+           database.timeRecordDao.insertTimeRecord(timeRecordDTO)
+       }
+       return code
+   }
+    private suspend fun saveTimeNetwork(idCard: String, time: String): Int {
         val response = api.postComment(idCard, time, apiKey, token)
         val code= response.code()
         return code
+    }
+
+    suspend fun syncAll(id: String) {
+        database.timeRecordDao.getAllNotSynced(id).iterator().forEach { timeRecord ->
+            try {
+                val code = saveTimeNetwork(timeRecord.id, timeRecord.timeRecord)
+                if (code==200) {
+                    timeRecord.status = "Synced"
+                    database.timeRecordDao.updateTimeRecord(timeRecord)
+                }
+            } catch (e:Exception){
+                Log.e("TimeTrack", e.message.orEmpty())
+            }
+        }
     }
 }

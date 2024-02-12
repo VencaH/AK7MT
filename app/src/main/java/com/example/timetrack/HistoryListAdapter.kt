@@ -5,9 +5,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetrack.databinding.ItemHistoryBinding
+import com.example.timetrack.domain.TimeRecordDomain
 
-class HistoryListAdapter(private val historyList: List<Pair<String,String>>):
+class HistoryListAdapter:
     RecyclerView.Adapter<HistoryListAdapter.ViewHolder>(){
+        var timeData: MutableList<TimeRecordDomain> = mutableListOf()
+
+    fun setTimeRecords(timeRecords: List<TimeRecordDomain>) {
+        this.timeData = timeRecords.toMutableList()
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -18,16 +25,18 @@ class HistoryListAdapter(private val historyList: List<Pair<String,String>>):
     }
 
     override fun onBindViewHolder(holder: HistoryListAdapter.ViewHolder, position: Int) {
-        holder.date.text = historyList[position].first
-        holder.time.text = historyList[position].second
+        holder.date.text = timeData[position].date
+        holder.time.text = timeData[position].timeRecord
+        holder.textStatus.text = timeData[position].status
     }
 
     override fun getItemCount(): Int {
-       return historyList.size
+       return timeData.size
     }
 
         inner class ViewHolder(binding: ItemHistoryBinding): RecyclerView.ViewHolder(binding.root) {
             var date: TextView = binding.date
             var time: TextView = binding.time
+            var textStatus: TextView = binding.textStatus
         }
 }
