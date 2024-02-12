@@ -15,6 +15,7 @@ class TrackActivityViewModel (private val repository: Repository): ViewModel(){
     var time = MutableLiveData<String>()
     var startstop = MutableLiveData<String>()
     var stopwatch = MutableLiveData<String?>()
+    var title =MutableLiveData<String>()
     private var stopwatchState: Boolean = false
 
     init {
@@ -39,21 +40,21 @@ class TrackActivityViewModel (private val repository: Repository): ViewModel(){
                         response.postValue("Error saving time, please try later.")
                     }
                 } catch (e: Exception) {
-                    response.postValue("Error saving time: Unable to reach server. Please try againg later.")
+                    response.postValue("Error saving time: Unable to reach server. Please try again later.")
                 }
             }
             }
     }
 
     fun flipStopwatch() {
-        if (!stopwatchState) {
+        stopwatchState = if (!stopwatchState) {
             stopwatch.postValue("start")
             startstop.postValue("Stop")
-            stopwatchState = true
+            true
         } else {
             stopwatch.postValue("stop")
             startstop.postValue( "Start")
-            stopwatchState = false
+            false
         }
     }
 

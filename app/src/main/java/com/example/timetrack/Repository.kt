@@ -1,20 +1,14 @@
 package com.example.timetrack
 
 import android.util.Log
-import com.example.timetrack.api.TaskDataNetwork
 import com.example.timetrack.api.TrelloApi
 import com.example.timetrack.api.mapToDatabase
-import com.example.timetrack.database.ListDataDTO
 import com.example.timetrack.database.MyDatabase
-import com.example.timetrack.database.TaskDataDTO
-import com.example.timetrack.database.TimeRecordDTO
 import com.example.timetrack.database.mapToDomain
-import com.example.timetrack.domain.ListDataDomain
-import com.example.timetrack.domain.ListDataNetwork
+import com.example.timetrack.api.ListDataNetwork
 import com.example.timetrack.domain.TaskDataDomain
 import com.example.timetrack.domain.TimeRecordDomain
 import com.example.timetrack.domain.mapToDTO
-import com.example.timetrack.domain.mapToDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

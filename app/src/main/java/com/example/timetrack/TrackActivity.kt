@@ -5,18 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.timetrack.databinding.ActivityTrackBinding
 
 class TrackActivity: AppCompatActivity() {
-    private lateinit var history: Button
    private lateinit var serviceIntent: Intent
-//    private var time: Int = 0
     private lateinit var binding: ActivityTrackBinding
     private lateinit var viewModel: TrackActivityViewModel
 
@@ -32,27 +27,23 @@ class TrackActivity: AppCompatActivity() {
         setContentView(view)
         val title = intent.extras?.getString("task_name")
         val id = intent.extras?.getString("id")
-        val titleText: TextView = binding.taskName
+        viewModel.title.value = title
        viewModel.idCard.value = id.orEmpty()
-        viewModel.response.observe(this, Observer {
+        viewModel.response.observe(this) {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-        })
-        viewModel.stopwatch.observe(this, Observer {
-            if (it=="start") {
+        }
+        viewModel.stopwatch.observe(this
+        ) {
+            if (it == "start") {
                 serviceIntent.putExtra(StopwatchService.TIME_EXTRA, viewModel.time.value)
                 startService(serviceIntent)
                 viewModel.stopwatch.value = null
-            }
-            else if (it=="stop"){
+            } else if (it == "stop") {
                 stopService(serviceIntent)
                 viewModel.stopwatch.value = null
             }
         }
-        )
-        titleText.text = title
 
-//        timer = binding.timeViewer
-//        timer.text = timeFormatter(0)
 
         serviceIntent = Intent(applicationContext, StopwatchService::class.java)
         registerReceiver(updateTime, IntentFilter(StopwatchService.TIMER_UPDATED),
@@ -81,9 +72,9 @@ class TrackActivity: AppCompatActivity() {
 
 
     private fun timeFormatter(time: Int): String {
-        val hours: Int =  (time / 3600).toInt()
-        val minutes: Int = ((time % 3600) / 60).toInt()
-        val seconds: Int = (time % 60).toInt()
+        val hours: Int = (time / 3600)
+        val minutes: Int = ((time % 3600) / 60)
+        val seconds: Int = (time % 60)
         return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 }

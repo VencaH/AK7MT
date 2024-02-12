@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,11 +43,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        viewModel.taskList.observe(this, Observer {
+        viewModel.taskList.observe(this) {
             Log.d("MainActivity", "onCreate: $it")
             adapter.setTaskList(it)
-        })
-        viewModel.errorMessage.observe(this, Observer {  })
+        }
         viewModel.getCurrentTaskList()
 
     }

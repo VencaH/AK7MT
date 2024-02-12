@@ -10,7 +10,7 @@ import com.example.timetrack.domain.TaskDataDomain
 
 class TaskListAdapter:
  RecyclerView.Adapter<TaskListAdapter.ViewHolder>(){
-  var tasks:MutableList<TaskDataDomain> = mutableListOf<TaskDataDomain>()
+  var tasks:MutableList<TaskDataDomain> = mutableListOf()
  fun setTaskList(tasks: List<TaskDataDomain>) {
   this.tasks = tasks.toMutableList()
   notifyDataSetChanged()

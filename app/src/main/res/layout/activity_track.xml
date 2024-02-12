@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 <variable
@@ -18,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Time tracking app"
+            android:text="@string/time_tracking_app"
             android:textAlignment="center"
             android:textColor="@color/design_default_color_primary"
             android:textSize="34sp"
@@ -33,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
-            android:text="task name"
+            android:text="@{String.valueOf(trackViewModel.title)}"
             android:textAlignment="center"
             android:textColor="@color/design_default_color_primary"
             android:textSize="26sp"
@@ -60,7 +59,7 @@
             android:layout_marginTop="143dp"
             android:layout_marginEnd="16dp"
             android:onClick="@{() ->trackViewModel.resetTimer()}"
-            android:text="Reset"
+            android:text="@string/btn_reset"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/taskHeader" />
 
@@ -82,21 +81,39 @@
             android:id="@+id/historyBotton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="120dp"
-            android:text="History"
+            android:layout_marginBottom="88dp"
+            android:text="@string/btn_history"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeViewer"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="88dp"
             android:onClick="@{() ->trackViewModel.saveTime() }"
-            android:text="Save"
-            app:layout_constraintBottom_toTopOf="@+id/historyBotton"
+            android:text="@string/btn_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/historyBotton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeViewer"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/trackHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="88dp"
+            android:text="@string/btn_home"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/historyBotton"
+            app:layout_constraintTop_toBottomOf="@+id/timeViewer"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

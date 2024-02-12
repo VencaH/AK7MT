@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -17,7 +17,7 @@
             android:id="@+id/MainHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Time tracking app"
+            android:text="@string/time_tracking_app"
             android:textAlignment="center"
             android:textColor="@color/design_default_color_primary"
             android:textSize="34sp"
@@ -52,23 +52,26 @@
 
         <Button
             android:id="@+id/buttonSync"
-            android:onClick="@{() -> historyViewModel.syncAll()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Sync"
-            app:layout_constraintBottom_toTopOf="@+id/goHome"
+            android:layout_marginBottom="24dp"
+            android:onClick="@{() -> historyViewModel.syncAll()}"
+            android:text="@string/btn_sync"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/historyList"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/goHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Home"
+            android:text="@string/btn_home"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/goBack"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSync"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -76,10 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Back"
+            android:text="@string/btn_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/goHome" />
+            app:layout_constraintStart_toEndOf="@+id/buttonSync" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

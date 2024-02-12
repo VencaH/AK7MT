@@ -1,8 +1,6 @@
 package com.example.timetrack.api
 
 import com.example.timetrack.domain.CommentDataDomain
-import com.example.timetrack.domain.ListDataDomain
-import com.example.timetrack.domain.ListDataNetwork
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

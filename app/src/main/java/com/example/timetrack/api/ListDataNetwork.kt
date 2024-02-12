@@ -1,4 +1,4 @@
-package com.example.timetrack.domain
+package com.example.timetrack.api
 
 import com.example.timetrack.database.ListDataDTO
 

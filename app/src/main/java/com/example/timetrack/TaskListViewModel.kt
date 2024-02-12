@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 
 class TaskListViewModel (private val repository: Repository): ViewModel(){
     val taskList = MutableLiveData<List<TaskDataDomain>>()
-    val errorMessage =MutableLiveData<String>()
 
     fun getCurrentTaskList() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -57,5 +57,3 @@ fun getDatabase(context: Context): MyDatabase {
     }
     return INSTANCE
 }
-class roomDatabase {
-}

@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiHandler : Application() {
-    val apiService: TrelloApi by lazy {
+    private val apiService: TrelloApi by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.trello.com/1/")
             .addConverterFactory(GsonConverterFactory.create())

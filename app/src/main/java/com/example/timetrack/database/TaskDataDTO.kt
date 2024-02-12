@@ -15,7 +15,7 @@ data class TaskDataDTO (
 )
 
 data class TaskDataStatus (
-    @Embedded val TaskData : TaskDataDTO,
+    @Embedded val taskData : TaskDataDTO,
     @Relation(
         parentColumn= "idList",
         entityColumn= "id"
@@ -25,8 +25,8 @@ data class TaskDataStatus (
 
 fun TaskDataStatus.mapToDomain():TaskDataDomain{
     return TaskDataDomain(
-        id = this.TaskData.id,
-        name = this.TaskData.name,
+        id = this.taskData.id,
+        name = this.taskData.name,
         status = this.list.name,
     )
 }
