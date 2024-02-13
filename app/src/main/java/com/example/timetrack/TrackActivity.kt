@@ -49,6 +49,10 @@ class TrackActivity: AppCompatActivity() {
         registerReceiver(updateTime, IntentFilter(StopwatchService.TIMER_UPDATED),
             RECEIVER_EXPORTED)
 
+        binding.trackHome.setOnClickListener {
+            val intent = Intent(this@TrackActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.historyBotton.setOnClickListener {
             val intent = Intent(this@TrackActivity, HistoryActivity::class.java)
